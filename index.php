@@ -27,12 +27,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 $result=mysqli_query($conn,$sql);
 if($result){
     echo '<div class="alert alert-success alert-dismissible" role="alert">
-  <strong>SUCCESS MF! </strong>your response has been submitted. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <strong>SUCCESS!! </strong>your response has been submitted. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>';
 }
 else{
     echo '<div class="alert alert-success alert-dismissible" role="alert">
-    <strong>WE GOT FUCKED UP! </strong>your response has npt been submitted. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>Something got wrong! </strong>your response has npt been submitted. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>';
 }
 
@@ -144,7 +144,7 @@ if($num>0)
         <th scope='row'>". $sno."</th>
         <td>".$row['title']."</td>
         <td>".$row['description']."</td>
-        <td>Actions</td>
+        <td><button class='btn btn-sm btn-primary mx-1 my-1'>Edit</button>  <button class='btn btn-sm btn-danger mx-1 my-1'>Delete</button></td>
       </tr>";
     }
 }
