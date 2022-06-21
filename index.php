@@ -17,7 +17,7 @@ die("sorry we got fucked up!!!".mysqli_connect_error());
 
 //checking method post or get
 
-echo $_SERVER['REQUEST_METHOD'];
+
 if($_SERVER['REQUEST_METHOD']=='POST'){
     $title=$_POST['title'];
     $description=$_POST['description'];
@@ -57,6 +57,11 @@ else{
   </head>
   <body>
     
+
+
+
+<!-- modal khtm -->
+
 
 
   <!-- navbar start here -->
@@ -144,7 +149,7 @@ if($num>0)
         <th scope='row'>". $sno."</th>
         <td>".$row['title']."</td>
         <td>".$row['description']."</td>
-        <td><button class='btn btn-sm btn-primary mx-1 my-1'>Edit</button>  <button class='btn btn-sm btn-danger mx-1 my-1'>Delete</button></td>
+        <td><button class=' edit btn btn-sm btn-primary mx-1 my-1'>Edit</button>  <button class='btn btn-sm btn-danger mx-1 my-1'>Delete</button></td>
       </tr>";
     }
 }
@@ -159,6 +164,48 @@ if($num>0)
 <!-- table ends here -->
 </div>
 
+
+<!-- modal edit krna -->
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+  Edit Modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Text</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      <form aciton="/crud/index.php" method="post">
+  <div class="mb-3">
+    <label for="titleEdit" class="form-label">Note Title</label>
+    <input type="text" class="form-control" id="titleEdit" name="titleEdit" aria-describedby="emailHelp">
+    
+
+    <!-- text area started -->
+    <div class="mb-3 my-3">
+  <label for="descriptionEdit" class="form-label">Note Description
+  </label>
+  <textarea class="form-control" id="descriptionEdit" name="descriptionEdit" rows="6"></textarea>
+</div>
+<!-- text area ended -->
+  <button type="submit" class="btn btn-primary">Update Notes</button>
+</form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- bootstrap js link -->
@@ -179,7 +226,20 @@ if($num>0)
 } );
 </script>
 
-
+<script>
+    edits=document.getElementsByClassName('edit');
+    Array.from(edits).forEach((element)=>{
+        element.addEventListener("click",(e)=>{
+            tr=e.target.parentNode.parentNode;
+            title=tr.getElementsByTagName("td")[0].innerText;
+            description=tr.getElementsByTagName("td")[1 ].innerText;
+            console.log(title,description);
+            descriptionEdit.value=description;
+            titleEdit.value=title;
+            $('#editModal').modal('toggle');
+        })
+    })
+</script>
 
     
   </body>
