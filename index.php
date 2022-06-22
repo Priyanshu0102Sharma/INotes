@@ -19,23 +19,36 @@ die("sorry we got fucked up!!!".mysqli_connect_error());
 
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    $title=$_POST['title'];
-    $description=$_POST['description'];
-  }
-
-  $sql="INSERT INTO `datacollector` (`title`, `description`) VALUES ('$title', '$description')";
-$result=mysqli_query($conn,$sql);
-if($result){
-    echo '<div class="alert alert-success alert-dismissible" role="alert">
-  <strong>SUCCESS!! </strong>your response has been submitted. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>';
+    if(isset($_POST['snoEdit']))
+    {
+        $sno=$_POST['snoEdit'];
+        $title=$_POST['titleEdit'];
+        $description=$_POST['descriptionEdit'];
+        
+        
+        $sql="UPDATE `datacollector` SET `title` = '$title' , `description` = '$description' WHERE `datacollector`.`sno` = $sno";
+        $result=mysqli_query($conn,$sql);
+    }
+    else{
+        $title=$_POST['title'];
+        $description=$_POST['description'];
+        
+        
+        $sql="INSERT INTO `datacollector` (`title`, `description`) VALUES ('$title', '$description')";
+        $result=mysqli_query($conn,$sql);
+        if($result){
+            echo '<div class="alert alert-success alert-dismissible" role="alert">
+            <strong>SUCCESS!! </strong>your response has been submitted. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        }
+        else{
+            echo '<div class="alert alert-success alert-dismissible" role="alert">
+            <strong>Something got wrong! </strong>your response has npt been submitted. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        }
+    }
 }
-else{
-    echo '<div class="alert alert-success alert-dismissible" role="alert">
-    <strong>Something got wrong! </strong>your response has npt been submitted. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>';
-}
-
+    
 ?>
 
 
@@ -149,7 +162,7 @@ if($num>0)
         <th scope='row'>". $sno."</th>
         <td>".$row['title']."</td>
         <td>".$row['description']."</td>
-        <td><button class=' edit btn btn-sm btn-primary mx-1 my-1'>Edit</button>  <button class='btn btn-sm btn-danger mx-1 my-1'>Delete</button></td>
+        <td><button class=' edit btn btn-sm btn-primary mx-1 my-1' id=".$row['sno'].">Edit</button>  <button class='btn btn-sm btn-danger mx-1 my-1'>Delete</button></td>
       </tr>";
     }
 }
@@ -168,9 +181,9 @@ if($num>0)
 <!-- modal edit krna -->
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
   Edit Modal
-</button>
+</button> -->
 
 <!-- Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -184,6 +197,7 @@ if($num>0)
         
       <form aciton="/crud/index.php" method="post">
   <div class="mb-3">
+    <input type="hidden" name="snoEdit" id="snoEdit">
     <label for="titleEdit" class="form-label">Note Title</label>
     <input type="text" class="form-control" id="titleEdit" name="titleEdit" aria-describedby="emailHelp">
     
@@ -236,6 +250,8 @@ if($num>0)
             console.log(title,description);
             descriptionEdit.value=description;
             titleEdit.value=title;
+            snoEdit.value=e.target.id;
+            console.log(e.target.id);
             $('#editModal').modal('toggle');
         })
     })
