@@ -11,7 +11,7 @@ $database="inotes";
 // create a connection
 $conn=mysqli_connect($servername,$username,$password,$database);
 if(!$conn){
-die("sorry we got fucked up!!!".mysqli_connect_error());
+die("sorry something went wrong!!!".mysqli_connect_error());
 }
 
 //for delete
@@ -92,6 +92,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
   <!-- data table css link -->
   <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+<style>
+  table, th, td {
+  border: 1px solid;
+}
+  </style>
 
 
 </head>
